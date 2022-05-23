@@ -3,10 +3,9 @@ const checkArgsValid = (num, fromBase, toBase) => {
     if ([num, fromBase, toBase].includes(undefined)) {
         return 'Please provide three arguments.';
     }
-    if (( Number(fromBase) < 2 || Number(fromBase) > 62) || ( Number(toBase) < 2 && Number(toBase) > 62)) {
-        return 'Invalid input.';
-    }
-    if (numCheck.length !== 3 ) {
+    if (( Number(fromBase) < 2 || Number(fromBase) > 62) || 
+        ( Number(toBase) < 2 && Number(toBase) > 62) || 
+        numCheck.length !== 3) {
         return 'Invalid input.';
     }
     if (Number(fromBase) <= 10) {
