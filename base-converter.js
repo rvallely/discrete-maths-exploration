@@ -3,51 +3,51 @@ const checkArgsValid = (num, fromBase, toBase) => {
     if ([num, fromBase, toBase].includes(undefined)) {
         return 'Please provide three arguments.';
     }
-    // console.log(/[0-9]/.test('10'))
-    if (numCheck.length !== 3 ) {
-        console.log(numCheck, '<<< numCheck')
+    if (( Number(fromBase) < 2 || Number(fromBase) > 62) || ( Number(toBase) < 2 && Number(toBase) > 62)) {
         return 'Invalid input.';
     }
-    // if (num.split('').find(element => element >= fromBase) !== undefined) {
-    //     return 'Invalid input: number to convert contains characters not present in the base system converting from.';
-    // }
-    console.log(numCheck, '<<< numCheck')
-    console.log('num >>>', typeof num)
-    console.log('num split >>', num.split(''))
-    console.log('fromBase >>', fromBase)
-    // fromBase and from this get the allowed char code range(s)
+    if (numCheck.length !== 3 ) {
+        return 'Invalid input.';
+    }
     if (Number(fromBase) <= 10) {
-        // char codes between 48-57
-        let maxCharCode = 48 + Number(fromBase);
+        let maxCharCode = 47 + Number(fromBase);
         for (let i = 0; i < num.length; i++) {
-            console.log(num[i]);
-            console.log('digit >> ', num[i], 'char code >>', num.charCodeAt(i))
             if (num.charCodeAt(i) < 48 || num.charCodeAt(i) > maxCharCode) {
                 return 'Invalid input: number to convert contains characters not present in the base system converting from.';
             }
         }
-    //return 'Invalid input: number to convert contains characters not present in the base system converting from.';
     }
-    else if (Number(fromBase) < 10 && Number(fromBase) <= 36) {
-        // char codes between 48-57 and/or 65 - 90
+    else if (Number(fromBase) > 10 && Number(fromBase) <= 36) {
         let maxCharCode = 64 + (fromBase - 10);
-        if (num.charCodeAt(i) < 48 || num.charCodeAt(i) > 57 || num.charCodeAt(i) < 65 || maxCharCode) {
-            return 'Invalid input: number to convert contains characters not present in the base system converting from.';
+        for (let i = 0; i < num.length; i++) {
+            if ((num.charCodeAt(i) < 48 || ( num.charCodeAt(i) > 57 && num.charCodeAt(i) < 65) || num.charCodeAt(i) > maxCharCode)) {
+                return 'Invalid input: number to convert contains characters not present in the base system converting from.';
+            }
         }
     }
-    else if (Number(fromBase) < 36 && Number(fromBase) <= 62) {
-        // char codes between 48-57 and/or 65 - 90 and / or 97 - 122
+    else if (Number(fromBase) > 36 && Number(fromBase) <= 62) {
         let maxCharCode = 96 + (fromBase - 36);
-        if (num.charCodeAt(i) < 48 || num.charCodeAt(i) > 57 || num.charCodeAt(i) < 65 || maxCharCode) {
-            return 'Invalid input: number to convert contains characters not present in the base system converting from.';
+        for (let i = 0; i < num.length; i++) {
+            if ( num.charCodeAt(i) < 48 || 
+                (num.charCodeAt(i) > 57 && num.charCodeAt(i) < 65) || 
+                (num.charCodeAt(i) > 90 && num.charCodeAt(i) < 97) ||
+                num.charCodeAt(i) > maxCharCode) {
+                return 'Invalid input: number to convert contains characters not present in the base system converting from.';
+            }
         }
     }
     return true;
 }
 
 const toDecimal = (num, fromBase) => {
-    const numReversed = String(num).split('').reverse();
+    const numReversed = num.split('').reverse();
     const result = numReversed.reduce((total, element, index) => {
+        if (element.charCodeAt(0) > 64 && element.charCodeAt(0) <= 90) {
+            element = 10 + (element.charCodeAt(0) - 65);
+        }
+        else if (element.charCodeAt(0) > 96 && element.charCodeAt(0) <= 122) {
+            element = 36 + (element.charCodeAt(0) - 97);
+        }
         total += Number(element) * (fromBase ** index);
         return total;
     }, 0);
@@ -60,6 +60,9 @@ const fromDecimal = (num, toBase) => {
         let remainder = num % toBase;
         if (remainder > 9 && remainder < 36) {
             remainder = String.fromCharCode(65 + (remainder - 10));
+        }
+        else if (remainder > 35 && remainder < 62) {
+            remainder = String.fromCharCode(97 + (remainder - 36));
         }
         result.unshift(remainder);
         num = Math.floor(num / toBase);
