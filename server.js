@@ -23,7 +23,7 @@ app.get('/', (req, res, next) => {
     res.send({ msg: 'Hello from the server!'});
 });
 
-app.get('/base-converter', getBaseConversion);
+app.post('/base-converter', getBaseConversion);
 
 app.all('*', handle404s);
 
