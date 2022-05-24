@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    res.send({ msg: 'Hello from the server'});
+    res.send({ msg: 'Hello from the server!'});
 });
 
 app.get('/base-converter', getBaseConversion);
