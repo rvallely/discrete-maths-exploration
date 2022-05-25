@@ -8,7 +8,7 @@ exports.checkArgsValid = (val, fromBase, toBase) => {
             return 'Invalid input.';
         }
     }
-    if (/[0-9a-zA-Z]/.test(val) === false || val.includes('.')) {
+    if (/^[0-9a-zA-Z]+$/.test(val) === false || val.includes('.')) {
         return 'Start value must only contain A-Z, a-z, 0-9.'
     }
     else if (/[0-9]/.test(fromBase) === false || 
