@@ -1,14 +1,27 @@
 exports.checkArgsValid = (val, fromBase, toBase) => {
-    const valCheck = [val, fromBase, toBase].filter((arg) => (/[0-9]/.test(arg) === true || /[a-z]/.test(arg) === true || /[A-Z]/.test(arg) === true) && typeof arg === 'string' && arg.includes('.') === false);
+    const args = [val, fromBase, toBase];
     if ([val, fromBase, toBase].includes(undefined) || [val, fromBase, toBase].includes(null)) {
         return 'Please provide three arguments.';
     }
-    if (( Number(fromBase) < 2 || Number(fromBase) > 62) || 
-        ( Number(toBase) < 2 && Number(toBase) > 62) || 
-        valCheck.length !== 3) {
-        return 'Invalid input.';
+    for (let i = 0; i < args.length; i++) {
+        if (typeof args[i] !== 'string') {
+            return 'Invalid input.';
+        }
     }
-    if (Number(fromBase) <= 10) {
+    if (/[0-9a-zA-Z]/.test(val) === false || val.includes('.')) {
+        return 'Start value must only contain A-Z, a-z, 0-9.'
+    }
+    else if (/[0-9]/.test(fromBase) === false || 
+             fromBase.includes('.') || 
+             /[0-9]/.test(toBase) === false || 
+             toBase.includes('.') ) {
+        return 'Bases to convert from must be a number between 2-62 (inclusive).'
+    }    
+    else if (( Number(fromBase) < 2 || Number(fromBase) > 62) || 
+        ( Number(toBase) < 2 || Number(toBase) > 62)) {
+        return 'Bases to convert from must be a number between 2-62 (inclusive).';
+    }
+    else if (Number(fromBase) <= 10) {
         let maxCharCode = 47 + Number(fromBase);
         for (let i = 0; i < val.length; i++) {
             if (val.charCodeAt(i) < 48 || val.charCodeAt(i) > maxCharCode) {

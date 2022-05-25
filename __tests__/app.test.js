@@ -42,14 +42,14 @@ describe('/base-converter', () => {
             expect(res.body.msg).toBe('Invalid input.');
         });
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 as the first argument.', () => {
+    test('Responds with status 400 and error message \'Start value must only contain A-Z, a-z, 0-9.\' when passed anything other than a string of digits 0-9 as the first argument.', () => {
         const invalidFirstArg = { val: '20.0', fromBase: '3.2', toBase: '5' };
         return request(app)
         .post('/base-converter')
         .send(invalidFirstArg)
         .expect(400)
         .then((res) => {
-            expect(res.body.msg).toBe('Invalid input.');
+            expect(res.body.msg).toBe('Start value must only contain A-Z, a-z, 0-9.');
         });
     });
     test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', () => {
@@ -112,34 +112,34 @@ describe('/base-converter', () => {
             expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
         });
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
         const fromBaseTooSmall = { val:'10', fromBase: '0', toBase: '3' };
         return request(app)
         .post('/base-converter')
         .send(fromBaseTooSmall)
         .expect(400)
         .then((res) => {
-            expect(res.body.msg).toBe('Invalid input.');
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
         });
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
         const fromBaseTooSmall = { val:'10', fromBase: '1', toBase: '3' };
         return request(app)
         .post('/base-converter')
         .send(fromBaseTooSmall)
         .expect(400)
         .then((res) => {
-            expect(res.body.msg).toBe('Invalid input.');
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
         });
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
         const fromBaseTooLarge = { val:'10', fromBase: '63', toBase: '3' };
         return request(app)
         .post('/base-converter')
         .send(fromBaseTooLarge)
         .expect(400)
         .then((res) => {
-            expect(res.body.msg).toBe('Invalid input.');
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
         });
     });
     test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
@@ -160,6 +160,46 @@ describe('/base-converter', () => {
         .expect(400)
         .then((res) => {
             expect(res.body.msg).toBe('Invalid input.');
+        });
+    });
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+        const invalidToBaseType = { val:'10', fromBase: 'B', toBase: '5' };
+        return request(app)
+        .post('/base-converter')
+        .send(invalidToBaseType)
+        .expect(400)
+        .then((res) => {
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
+        });
+    });
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+        const invalidToBaseType = { val:'10', fromBase: '3', toBase: 'D' };
+        return request(app)
+        .post('/base-converter')
+        .send(invalidToBaseType)
+        .expect(400)
+        .then((res) => {
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
+        });
+    });
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+        const invalidToBaseType = { val:'10', fromBase: '!', toBase: '5' };
+        return request(app)
+        .post('/base-converter')
+        .send(invalidToBaseType)
+        .expect(400)
+        .then((res) => {
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
+        });
+    });
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+        const invalidToBaseType = { val:'10', fromBase: '3.0', toBase: '5' };
+        return request(app)
+        .post('/base-converter')
+        .send(invalidToBaseType)
+        .expect(400)
+        .then((res) => {
+            expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
         });
     });
     test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
@@ -242,7 +282,6 @@ describe('/base-converter', () => {
             expect(res.body).toEqual({ convertedValue: '40612231' });
         });
     });
-    ////
     test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
         const validRequest = { val: '56', fromBase: '32', toBase: '29' };
         return request(app)
