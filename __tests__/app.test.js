@@ -312,14 +312,23 @@ describe('/base-converter', () => {
             expect(res.body).toEqual({ convertedValue: '1000202212121120010' });
         });
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test.only('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
         const validRequest = { val: '781AZ3', fromBase: '36', toBase: '14' };
         return request(app)
         .post('/base-converter')
         .send(validRequest)
         .expect(200)
         .then((res) => {
-            expect(res.body).toEqual({ convertedValue: '42013691' });
+            expect(res.body).toEqual({ convertedValue: '42013691', calcs: [
+                { val: 436761039, toBase: '14', newVal: 31197217, remainder: 1 },
+                { val: 31197217, toBase: '14', newVal: 2228372, remainder: 9 },
+                { val: 2228372, toBase: '14', newVal: 159169, remainder: 6 },
+                { val: 159169, toBase: '14', newVal: 11369, remainder: 3 },
+                { val: 11369, toBase: '14', newVal: 812, remainder: 1 },
+                { val: 812, toBase: '14', newVal: 58, remainder: 0 },
+                { val: 58, toBase: '14', newVal: 4, remainder: 2 },
+                { val: 4, toBase: '14', newVal: 0, remainder: 4 }
+              ]});
         });
     });
     test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
