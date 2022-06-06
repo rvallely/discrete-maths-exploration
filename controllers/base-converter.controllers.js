@@ -1,4 +1,4 @@
-const { checkArgsValid } = require('../utils/checkArgsValid.js');
+const { checkArgsValid } = require('../utils/base-converterValid.js');
 const { calculateBaseConversion } = require('../models/base-converter.models');
 
 exports.getBaseConversion = (req, res, next) => {
