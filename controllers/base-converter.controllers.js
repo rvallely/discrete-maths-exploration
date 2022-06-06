@@ -10,7 +10,6 @@ exports.getBaseConversion = (req, res, next) => {
         });
     } 
     const convertedValue = calculateBaseConversion(req.body.val, req.body.fromBase, req.body.toBase)
-    console.log(convertedValue);
     res.status(200).send({convertedValue: convertedValue[0], calcs: convertedValue[1]});
 
 } 
