@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 
 const { getBaseConversion } = require('./controllers/base-converter.controllers.js');
+const { getSummation } = require('./controllers/summation-calculator.controllers');
 const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors/errors.js');
 
 app.use(cors());
@@ -28,6 +29,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.post('/base-converter', getBaseConversion);
+app.post('/summation-calculator', getSummation);
 
 app.all('*', handle404s);
 
