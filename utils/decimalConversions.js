@@ -17,8 +17,7 @@ exports.fromDecimal = (val, toBase) => {
     let result = [];
     let calcs = [];
     while (val !== 0) {
-        let innerCalc = {val: val, toBase: toBase, newVal: Math.floor(val / toBase), remainder: val % toBase}
-        //console.log(val, '/', toBase, '=', Math.floor(val / toBase), '|', 'remainder ', val % toBase)
+        let innerCalc = { val: val, toBase: toBase, newVal: Math.floor(val / toBase), remainder: val % toBase }
         calcs.push(innerCalc);
         let remainder = val % toBase;
         if (remainder > 9 && remainder < 36) {
@@ -30,7 +29,5 @@ exports.fromDecimal = (val, toBase) => {
         result.unshift(remainder);
         val = Math.floor(val / toBase);
     }
-    // [{val: w, fromBase: x, newVal: y, remainder: z}]
-    console.log([result.join(''), calcs])
     return [result.join(''), calcs];
 }
