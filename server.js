@@ -3,8 +3,8 @@ const cors = require('cors');
 
 const app = express();
 
-const { getBaseConversion } = require('./controllers/base-converter.controllers.js');
-const { getSummation } = require('./controllers/summation-calculator.controllers');
+const { getBaseConversion } = require('../base-converter/controllers/base-converter.controllers');
+const { getSummation } = require('../base-converter/controllers/summation-calculator.controllers');
 const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors/errors.js');
 
 app.use(cors());
