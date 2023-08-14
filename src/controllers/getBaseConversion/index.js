@@ -10,5 +10,6 @@ exports.getBaseConversion = (req, res, next) => {
             });
     }
     const convertedValue = calculateBaseConversion(req.body.val, req.body.fromBase, req.body.toBase);
-    return res.status(200).send({ convertedValue: convertedValue[0], calcs: convertedValue[1] });
+    res.header('Access-Control-Allow-Origin', '*');
+    res.status(200).send({ convertedValue: convertedValue[0], calcs: convertedValue[1] });
 };
