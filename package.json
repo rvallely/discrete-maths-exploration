@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node listen.js",
-    "dev": "nodemon listen.js",
+    "start": "node src/listen.js",
+    "dev": "nodemon src/listen.js",
     "test": "jest --ci --verbose",
     "lint": "eslint . --ext js"
   },
