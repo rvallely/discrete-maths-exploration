@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const app = express();
 
-const { getBaseConversion } = require('../../base-converter/controllers/base-converter.controllers');
+const { getBaseConversion } = require('./controllers/getBaseConversion');
 const { getSummation } = require('../../base-converter/controllers/summation-calculator.controllers');
 const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors');
 const { getSortedListUsingBubbleSort } = require('./controllers/getSortedListUsingBubbleSort');
