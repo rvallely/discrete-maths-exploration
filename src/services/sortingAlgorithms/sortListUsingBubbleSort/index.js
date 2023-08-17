@@ -42,17 +42,19 @@ const sortListUsingBubbleSort = (numberList) => {
     }
 
     const executionEnd = performance.now();
+
+    const executionTimeMs = executionEnd - executionStart;
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time bubbleSort: ${executionEnd - executionStart} ms.`,
+        Execution time bubbleSort: ${executionTimeMs} ms.`,
     );
 
     return {
         unsortedList: numberList,
         sortedList: listIteration,
         inputSize: numberList.length,
-        executionTimeMs: executionEnd - executionStart,
+        executionTimeMs,
         iterations,
     };
 };

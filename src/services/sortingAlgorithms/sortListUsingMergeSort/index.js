@@ -34,10 +34,10 @@ const completeIteration = (listOfLists) => {
 const sortListUsingMergeSort = (numberList) => {
     const executionStart = performance.now();
 
-    const listOfLists = numberList.map((number) => [number]);
-
     let sortingComplete;
-    let listsToSort = listOfLists;
+    let listsToSort = numberList.map((number) => [number]);
+
+    const sortingSteps = [String(listsToSort)];
     while (!sortingComplete) {
         /**
          * We always need to compare each inner list to another, even if it is empty. So if there
@@ -48,7 +48,7 @@ const sortListUsingMergeSort = (numberList) => {
         }
 
         const nextIteration = completeIteration(listsToSort);
-
+        sortingSteps.push(String(nextIteration));
         /**
          * If the nextIteration has more than one inner list it means there are more elements to
          * put in order and the sorting needs to continue.
@@ -58,17 +58,24 @@ const sortListUsingMergeSort = (numberList) => {
     }
 
     const executionEnd = performance.now();
+    const executionTimeMs = executionEnd - executionStart;
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time mergeSort: ${executionEnd - executionStart} ms.`,
+        Execution time mergeSort: ${executionTimeMs} ms.`,
     );
 
     /**
      * Otherwise, the sorting is complete and we return the single element of the list which is
      * the fully sorted list.
      */
-    return listsToSort[0];
+    return {
+        unsortedList: [...numberList],
+        sortedList: listsToSort[0],
+        inputSize: numberList.length,
+        executionTimeMs,
+        iterations: sortingSteps,
+    };
 };
 
 module.exports = {

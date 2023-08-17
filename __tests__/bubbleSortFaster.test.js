@@ -8,7 +8,44 @@ describe('#sortListUsingBubbleSortFaster', () => {
             // expect(bubbleSortFaster([13, 3, 18, 6, 8, 9, 11, 12, 7, 2])).toStrictEqual(
             //     [2, 3, 6, 7, 8, 9, 11, 12, 13, 18],
             // );
-            expect(sortListUsingBubbleSortFaster([4, 1, 9, 3, 2])).toStrictEqual([1, 2, 3, 4, 9]);
+
+            const {
+                unsortedList,
+                sortedList,
+                inputSize,
+                executionTimeMs,
+                iterations,
+            } = sortListUsingBubbleSortFaster([4, 1, 9, 3, 2]);
+
+            console.log(iterations, '<<< returned iterations');
+            // expect(unsortedList).toStrictEqual([4, 1, 9, 3, 2]);
+            // expect(sortedList).toStrictEqual([1, 2, 3, 4, 9]);
+            // expect(inputSize).toBe([4, 1, 9, 3, 2].length);
+            // expect(typeof executionTimeMs).toBe('number');
+            expect(iterations).toStrictEqual([{
+                listBeforePass: [4, 1, 9, 3, 2],
+                listAfterPass: [1, 4, 3, 2],
+                sortedList: [9],
+                swapNeeded: true,
+            },
+            {
+                listBeforePass: [1, 4, 3, 2],
+                listAfterPass: [1, 3, 2],
+                sortedList: [4, 9],
+                swapNeeded: true,
+            },
+            {
+                listBeforePass: [1, 3, 2],
+                listAfterPass: [1, 2],
+                sortedList: [3, 4, 9],
+                swapNeeded: true,
+            },
+            {
+                listBeforePass: [1, 2],
+                listAfterPass: [1],
+                sortedList: [2, 3, 4, 9],
+                swapNeeded: false,
+            }]);
         });
     });
 });

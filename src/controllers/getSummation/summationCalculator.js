@@ -1,5 +1,5 @@
-const { checkSumArgsValid } = require('../helpers/summationValid');
-const { calculateSummation } = require('../services/summation-calculator');
+const { checkSumArgsValid } = require('../../helpers/summationValid');
+const { calculateSummation } = require('../../services/summation-calculator');
 
 exports.getSummation = (req, res, next) => {
     const checkArgsValid = checkSumArgsValid(req.body);

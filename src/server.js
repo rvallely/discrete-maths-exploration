@@ -3,10 +3,14 @@ const cors = require('cors');
 
 const app = express();
 
-const { getBaseConversion } = require('./controllers/getBaseConversion');
-const { getSummation } = require('./controllers/summationCalculator');
+const { getSummation } = require('./controllers/getSummation/summationCalculator');
 const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors');
-const { getSortedListUsingBubbleSort } = require('./controllers/getSortedListUsingBubbleSort');
+const {
+    getBaseConversion,
+    getSortedListUsingBubbleSort,
+    getSortedListUsingBubbleSortFaster,
+    getSortedListUsingMergeSort,
+} = require('./controllers');
 
 app.use(cors());
 app.use((req, res, next) => {
@@ -32,6 +36,8 @@ app.get('/', (req, res, next) => {
 app.post('/base-converter', getBaseConversion);
 app.post('/summation-calculator', getSummation);
 app.post('/sorting-algorithms/bubble-sort', getSortedListUsingBubbleSort);
+app.post('/sorting-algorithms/bubble-sort-faster', getSortedListUsingBubbleSortFaster);
+app.post('/sorting-algorithms/merge-sort', getSortedListUsingMergeSort);
 
 app.all('*', handle404s);
 

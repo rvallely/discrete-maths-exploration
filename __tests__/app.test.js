@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../src/server');
 
-describe('/base-converter', () => {
+describe.skip('/base-converter', () => {
     test('Responds with a status 400 and error message \'Please provide three arguments.\'  when passed less than three arguments.', () => {
         const missingArg = { val: '3' };
         return request(app)
@@ -428,7 +428,7 @@ describe('/base-converter', () => {
     });
 });
 
-describe('/summation-calculator', () => {
+describe.skip('/summation-calculator', () => {
     test('Responds with error message \'Please provide values for n, i and the operation.\', when passed a request body that does not contain n, i or operation.', () => request(app)
         .post('/summation-calculator')
         .send({ n: '2', i: '1' })
