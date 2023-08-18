@@ -62,7 +62,7 @@ const sortListUsingMergeSort = (numberList) => {
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time mergeSort: ${executionTimeMs} ms.`,
+        Execution time mergeSort: ${executionTimeMs} milliseconds.`,
     );
 
     /**
