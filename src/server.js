@@ -11,8 +11,13 @@ const {
     getSortedListUsingBubbleSortFaster,
     getSortedListUsingMergeSort,
 } = require('./controllers');
+const { CORS_ORIGIN } = require('./env');
 
-app.use(cors());
+const corsOptions = {
+    origin: CORS_ORIGIN,
+};
+
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();

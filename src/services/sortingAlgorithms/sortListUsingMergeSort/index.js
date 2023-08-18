@@ -37,7 +37,7 @@ const sortListUsingMergeSort = (numberList) => {
     let sortingComplete;
     let listsToSort = numberList.map((number) => [number]);
 
-    const sortingSteps = [JSON.parse(JSON.stringify(listsToSort))];
+    // const sortingSteps = [JSON.parse(JSON.stringify(listsToSort))];
     while (!sortingComplete) {
         /**
          * We always need to compare each inner list to another, even if it is empty. So if there
@@ -48,7 +48,7 @@ const sortListUsingMergeSort = (numberList) => {
         }
 
         const nextIteration = completeIteration(listsToSort);
-        sortingSteps.push(JSON.parse(JSON.stringify(nextIteration)));
+        // sortingSteps.push(JSON.parse(JSON.stringify(nextIteration)));
         /**
          * If the nextIteration has more than one inner list it means there are more elements to
          * put in order and the sorting needs to continue.
@@ -74,7 +74,7 @@ const sortListUsingMergeSort = (numberList) => {
         sortedList: listsToSort[0],
         inputSize: numberList.length,
         executionTimeMs,
-        iterations: sortingSteps,
+        iterations: [],
     };
 };
 
