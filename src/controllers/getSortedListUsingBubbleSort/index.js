@@ -7,4 +7,5 @@ exports.getSortedListUsingBubbleSort = (req, res, next) => {
     const sortedListData = sortListUsingBubbleSort(req.body.unsortedList);
     console.log(sortedListData, '<<< sortedListData');
     res.status(200).send({ data: sortedListData });
+    console.log(res, '<<< response');
 };
