@@ -8,7 +8,7 @@ const completeIteration = (listOfLists) => {
         while (listOfLists[i].length > 0 || listOfLists[i + 1].length > 0) {
             let smallerElement;
             // If both lists being compared have an element at index 0...
-            if (listOfLists[i][0] && listOfLists[i + 1][0]) {
+            if (typeof listOfLists[i][0] === 'number' && typeof listOfLists[i + 1][0] === 'number') {
                 // ...find the smaller element.
                 listOfLists[i][0] < listOfLists[i + 1][0]
                     ? [smallerElement] = listOfLists[i].splice(0, 1)
@@ -31,29 +31,84 @@ const completeIteration = (listOfLists) => {
     return nextIteration;
 };
 
+const splitListInHalf = (list) => {
+    const iteration = [];
+
+    if (typeof list[0] === 'number') {
+        iteration.push(list.slice(0, Math.ceil(list.length / 2)));
+        iteration.push(list.slice(Math.ceil(list.length / 2)));
+    } else {
+        list.forEach((arr) => {
+            if (arr.length > 1) {
+                iteration.push(arr.slice(0, Math.ceil(arr.length / 2)));
+                iteration.push(arr.slice(Math.ceil(arr.length / 2)));
+            } else {
+                iteration.push(arr);
+            }
+        });
+    }
+    return iteration;
+};
+
+const recursivelySpiltListInHalf = (list) => {
+    const iterations = [list];
+
+    // while the last element of iterations is not a list of arrays and has a length === originalList length
+    while (!(
+        iterations[iterations.length - 1].length === list.length
+        && Array.isArray(iterations[iterations.length - 1][0])
+    )
+    ) {
+        iterations.push(splitListInHalf(iterations[iterations.length - 1]));
+    }
+    return iterations;
+};
+
 const sortListUsingMergeSort = (numberList) => {
     const executionStart = performance.now();
 
-    let sortingComplete;
-    let listsToSort = numberList.map((number) => [number]);
+    if (numberList.length === 1) {
+        const executionEnd = performance.now();
+        const executionTimeMs = executionEnd - executionStart;
+        // eslint-disable-next-line no-console
+        console.log(
+            `Input size: ${numberList.length}.\n
+        Execution time mergeSort: ${executionTimeMs} milliseconds.`,
+        );
 
-    // const sortingSteps = [JSON.parse(JSON.stringify(listsToSort))];
-    while (!sortingComplete) {
+        return {
+            unsortedList: [...numberList],
+            sortedList: [...numberList],
+            inputSize: numberList.length,
+            executionTimeMs,
+            iterations: {
+                splitting: [...numberList],
+                sorting: [...numberList],
+            },
+        };
+    }
+
+    const listSplittingProcess = recursivelySpiltListInHalf(numberList);
+
+    const listSplittingProcessSnapshot = JSON.parse(JSON.stringify(listSplittingProcess));
+    let listsToSort = listSplittingProcess[listSplittingProcess.length - 1];
+
+    const sortingSteps = [JSON.parse(JSON.stringify(listsToSort))];
+    while (listsToSort.length > 1) {
         /**
-         * We always need to compare each inner list to another, even if it is empty. So if there
-         * are an odd number of inner lists, and empty list is added to the end.
-         */
+             * We always need to compare each inner list to another, even if it is empty. So if there
+             * are an odd number of inner lists, and empty list is added to the end.
+             */
         if (listsToSort.length % 2 !== 0) {
             listsToSort.push([]);
         }
 
         const nextIteration = completeIteration(listsToSort);
-        // sortingSteps.push(JSON.parse(JSON.stringify(nextIteration)));
+        sortingSteps.push(JSON.parse(JSON.stringify(nextIteration)));
         /**
-         * If the nextIteration has more than one inner list it means there are more elements to
-         * put in order and the sorting needs to continue.
-         */
-        sortingComplete = !(nextIteration.length > 1);
+                 * If the nextIteration has more than one inner list it means there are more elements to
+                 * put in order and the sorting needs to continue.
+                 */
         listsToSort = nextIteration;
     }
 
@@ -62,23 +117,27 @@ const sortListUsingMergeSort = (numberList) => {
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time mergeSort: ${executionTimeMs} milliseconds.`,
+            Execution time mergeSort: ${executionTimeMs} milliseconds.`,
     );
 
     /**
-     * Otherwise, the sorting is complete and we return the single element of the list which is
-     * the fully sorted list.
-     */
+         * Otherwise, the sorting is complete and we return the single element of the list which is
+         * the fully sorted list.
+         */
     return {
         unsortedList: [...numberList],
         sortedList: listsToSort[0],
         inputSize: numberList.length,
         executionTimeMs,
-        iterations: [],
+        iterations: {
+            splitting: listSplittingProcessSnapshot,
+            sorting: sortingSteps,
+        },
     };
 };
 
 module.exports = {
     completeIteration,
     sortListUsingMergeSort,
+    recursivelySpiltListInHalf,
 };
