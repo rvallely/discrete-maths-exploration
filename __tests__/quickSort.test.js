@@ -156,8 +156,7 @@ describe('#getLayers', () => {
 describe('#getSortedListFromLayers', () => {
     describe('given a list of layers', () => {
         it('returns the sorted list', () => {
-            const sortedList = getSortedListFromLayers(getLayers([4, 6, 1, 2, 3]));
-            expect(sortedList).toStrictEqual([1, 2, 3, 4, 6]);
+            expect(getSortedListFromLayers(getLayers([4, 6, 1, 2, 3])).sortedList).toStrictEqual([1, 2, 3, 4, 6]);
         });
     });
 });
@@ -165,16 +164,22 @@ describe('#getSortedListFromLayers', () => {
 describe('#sortListUsingQuickSort', () => {
     describe('given a list of numbers', () => {
         it('returns the sorted list', () => {
-            const sortedList1 = sortListUsingQuickSort([4, 6, 1, 2, 3]);
-            expect(sortedList1).toStrictEqual([1, 2, 3, 4, 6]);
+            expect(sortListUsingQuickSort([4, 6, 1, 2, 3]).sortedList).toStrictEqual([1, 2, 3, 4, 6]);
+            expect(
+                sortListUsingQuickSort(
+                    [4, 3, 7, 9, 1, 0, 4, 34, 2, 78, 8],
+                ).sortedList,
+            ).toStrictEqual([0, 1, 2, 3, 4, 4, 7, 8, 9, 34, 78]);
 
-            const sortedList2 = sortListUsingQuickSort([11, 10, 13, 1, 12, 7, 19, 16, 18, 20]);
-            expect(sortedList2).toStrictEqual([1, 7, 10, 11, 12, 13, 16, 18, 19, 20]);
+            expect(
+                sortListUsingQuickSort(
+                    [11, 10, 13, 1, 12, 7, 19, 16, 18, 20],
+                ).sortedList,
+            ).toStrictEqual([1, 7, 10, 11, 12, 13, 16, 18, 19, 20]);
 
-            const sortedList3 = sortListUsingQuickSort(
+            expect(sortListUsingQuickSort(
                 [14, 21, 6, 20, 24, 4, 17, 30, 25, 10, 11, 16, 1, 18, 9, 27, 22, 19, 26, 5],
-            );
-            expect(sortedList3).toStrictEqual(
+            ).sortedList).toStrictEqual(
                 [1, 4, 5, 6, 9, 10, 11, 14, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 30],
             );
         });
