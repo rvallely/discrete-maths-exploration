@@ -1,12 +1,12 @@
-const { v4: uuid } = require('uuid');
 const { performance } = require('perf_hooks');
+const { v4: uuid } = require('uuid');
 
 const generateNode = (nodeType, { fullList, previousNodeName }) => {
     const list = [...fullList];
     const pivot = list.splice([...list].length - 1, 1)[0];
 
     return {
-        name: uuid(),
+        name: `${pivot}--${uuid()}`,
         fullList,
         unorderedList: list,
         pivot,
@@ -51,7 +51,9 @@ const getNextNodes = (priorNode) => {
     return nextNodes;
 };
 
-const getNextLayer = (previousLayer) => previousLayer.reduce((layer, previousLayerNode) => layer.concat(getNextNodes(previousLayerNode)), []);
+const getNextLayer = (
+    previousLayer,
+) => previousLayer.reduce((layer, previousLayerNode) => layer.concat(getNextNodes(previousLayerNode)), []);
 
 const getLayers = (list) => {
     const layer0 = [generateNode('first', { fullList: list })];
@@ -81,12 +83,13 @@ const getLayers = (list) => {
     return layers;
 };
 
-const getSortedListFromLayers = (layers) => {
+const getSortedListFromLayers = (originalLayers) => {
+    const layers = JSON.parse(JSON.stringify(originalLayers));
     for (let i = Object.keys(layers).length - 1; i >= 0; i -= 1) {
         if (i === 0) {
             break;
         } else {
-            for (currentNode of layers[i]) {
+            layers[i].forEach((currentNode) => {
                 const parentNodeIndex = layers[i - 1].findIndex(
                     (node) => node.name === currentNode.previousNode.name,
                 );
@@ -98,26 +101,38 @@ const getSortedListFromLayers = (layers) => {
                     : layers[i - 1][parentNodeIndex].sortedList = layers[i - 1][parentNodeIndex]
                         .sortedList
                         .concat(currentNode.sortedList);
-            }
+            });
         }
     }
-
-    return layers[0][0].sortedList;
+    return {
+        sortedList: layers[0][0].sortedList,
+        iterations: layers,
+    };
 };
 
 const sortListUsingQuickSort = (numberList) => {
     const executionStart = performance.now();
 
-    const sortedList = getSortedListFromLayers(getLayers(numberList));
+    const {
+        sortedList,
+        iterations,
+    } = getSortedListFromLayers(getLayers(numberList));
 
     const executionEnd = performance.now();
+    const executionTimeMs = executionEnd - executionStart;
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time quickSort: ${executionEnd - executionStart} ms.`,
+        Execution time quickSort: ${executionTimeMs} ms.`,
     );
 
-    return sortedList;
+    return {
+        unsortedList: [...numberList],
+        sortedList,
+        iterations,
+        executionTimeMs: `${executionTimeMs} ms`,
+        inputSize: numberList.length,
+    };
 };
 
 module.exports = {
