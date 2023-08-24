@@ -1,4 +1,4 @@
-const { sortListUsingInsertionSort } = require('../src/services/sortingAlgorithms/sortListUsingInsertionSort');
+const { sortListUsingInsertionSort } = require('../src/sorting-algorithms/services/sortListUsingInsertionSort');
 
 describe('#sortListUsingInsertionSort', () => {
     describe('given a list of numbers', () => {

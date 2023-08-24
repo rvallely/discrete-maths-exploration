@@ -3,7 +3,7 @@ const {
     getLayers,
     getSortedListFromLayers,
     sortListUsingQuickSort,
-} = require('../src/services/sortingAlgorithms/sortListUsingQuickSort');
+} = require('../src/sorting-algorithms/services/sortListUsingQuickSort');
 
 describe('#getLayers', () => {
     describe('given an array of numbers', () => {

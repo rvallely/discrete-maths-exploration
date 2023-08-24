@@ -2,7 +2,6 @@ const { performance } = require('perf_hooks');
 const { completeBubbleSortIteration } = require('../sortListUsingBubbleSort/index');
 
 const sortListUsingBubbleSortFaster = (numberList) => {
-    console.log('***in sortListUsingBubbleSortFaster ***');
     const executionStart = performance.now();
 
     let inOrder;
@@ -40,10 +39,6 @@ const sortListUsingBubbleSortFaster = (numberList) => {
                 swapNeeded,
             });
         }
-
-        console.log('newList: ', newList);
-        console.log('swapNeeded: ', swapNeeded);
-        console.log('sortedList: ', sortedList);
 
         inOrder = swapNeeded === false;
     }

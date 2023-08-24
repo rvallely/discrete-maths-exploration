@@ -1,4 +1,4 @@
-const { sortListUsingBubbleSortFaster } = require('../src/services/sortingAlgorithms/sortListUsingBubbleSortFaster');
+const { sortListUsingBubbleSortFaster } = require('../src/sorting-algorithms/services/sortListUsingBubbleSortFaster');
 
 describe('#sortListUsingBubbleSortFaster', () => {
     describe('given a list of numbers', () => {

@@ -1,4 +1,4 @@
-const { checkListValid } = require('../src/controllers/getSortedList');
+const { checkListValid } = require('../src/sorting-algorithms/controllers/getSortedList');
 
 describe('#checkListValid', () => {
     describe('given a string only containing numbers, commas and spaces', () => {

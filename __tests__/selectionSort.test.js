@@ -1,4 +1,4 @@
-const { sortListUsingSelectionSort } = require('../src/services/sortingAlgorithms/sortListUsingSelectionSort');
+const { sortListUsingSelectionSort } = require('../src/sorting-algorithms/services/sortListUsingSelectionSort');
 
 describe('#sortListUsingSelectionSort', () => {
     describe('given a list of numbers', () => {

@@ -1,10 +1,10 @@
-const { sortListUsingBubbleSort } = require('../../services/sortingAlgorithms/sortListUsingBubbleSort');
-const { sortListUsingBubbleSortFaster } = require('../../services/sortingAlgorithms/sortListUsingBubbleSortFaster');
-const { sortListUsingInsertionSort } = require('../../services/sortingAlgorithms/sortListUsingInsertionSort');
-const { sortListUsingMergeSort } = require('../../services/sortingAlgorithms/sortListUsingMergeSort');
-const { sortListUsingQuickSort } = require('../../services/sortingAlgorithms/sortListUsingQuickSort');
-const { sortListUsingSelectionSort } = require('../../services/sortingAlgorithms/sortListUsingSelectionSort');
-const { SortingAlgorithmName } = require('../types');
+const { sortListUsingBubbleSort } = require('../../services/sortListUsingBubbleSort');
+const { sortListUsingBubbleSortFaster } = require('../../services/sortListUsingBubbleSortFaster');
+const { sortListUsingInsertionSort } = require('../../services/sortListUsingInsertionSort');
+const { sortListUsingMergeSort } = require('../../services/sortListUsingMergeSort');
+const { sortListUsingQuickSort } = require('../../services/sortListUsingQuickSort');
+const { sortListUsingSelectionSort } = require('../../services/sortListUsingSelectionSort');
+const { SortingAlgorithmName } = require('../../types');
 
 const checkListValid = (unsortedList) => (/^[0-9, ]*$/.test(unsortedList) === true
     ? {

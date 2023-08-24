@@ -1,7 +1,7 @@
 const {
     sortListUsingBubbleSort,
     completeBubbleSortIteration,
-} = require('../src/services/sortingAlgorithms/sortListUsingBubbleSort');
+} = require('../src/sorting-algorithms/services/sortListUsingBubbleSort');
 
 describe('#completeBubbleSortIteration', () => {
     describe('given a list of numbers', () => {

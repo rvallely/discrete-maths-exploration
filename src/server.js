@@ -3,13 +3,13 @@ const cors = require('cors');
 
 const app = express();
 
-const { getSummation } = require('./controllers/getSummation/summationCalculator');
+const { getSummation } = require('./summation-calculator/controllers/getSummation/summationCalculator');
 const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors');
 const {
     getBaseConversion,
-} = require('./controllers');
+} = require('./base-converter/controllers/getBaseConversion');
 const { CORS_ORIGIN } = require('./env');
-const { getSortedList } = require('./controllers/getSortedList');
+const { getSortedList } = require('./sorting-algorithms/controllers/getSortedList');
 
 app.use(cors({
     origin: CORS_ORIGIN,
@@ -21,7 +21,7 @@ app.use(cors({
     .use(express.json())
     .use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.send({ msg: 'Hello from the server!' });
 });
 

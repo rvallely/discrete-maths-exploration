@@ -2,7 +2,7 @@ const {
     sortListUsingMergeSort,
     completeIteration,
     recursivelySpiltListInHalf,
-} = require('../src/services/sortingAlgorithms/sortListUsingMergeSort');
+} = require('../src/sorting-algorithms/services/sortListUsingMergeSort');
 
 describe('#completeIteration', () => {
     describe('given an array of arrays', () => {

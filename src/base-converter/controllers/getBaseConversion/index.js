@@ -1,5 +1,5 @@
 const { checkArgsValid } = require('../../helpers/baseConverterValid');
-const { calculateBaseConversion } = require('../../services/baseConverter/calculateBaseConversion');
+const { calculateBaseConversion } = require('../../services/calculateBaseConversion');
 
 exports.getBaseConversion = (req, res, next) => {
     const argsValid = checkArgsValid(req.body.val, req.body.fromBase, req.body.toBase);
