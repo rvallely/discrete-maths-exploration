@@ -8,7 +8,7 @@ const { handle404s, handleCustomErrors, handleServerErrors } = require('./errors
 const {
     getBaseConversion,
 } = require('./base-converter/controllers/getBaseConversion');
-const { CORS_ORIGIN } = require('./env');
+const { CORS_ORIGIN } = require('./config/env');
 const { getSortedList } = require('./sorting-algorithms/controllers/getSortedList');
 
 app.use(cors({
