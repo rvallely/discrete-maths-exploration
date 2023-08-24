@@ -1,44 +1,56 @@
 const { performance } = require('perf_hooks');
 
-const sortListUsingInsertionSort = (numberList) => {
+const sortListUsingInsertionSort = (list) => {
     const executionStart = performance.now();
 
-    const sortedList = [numberList[0]];
-    // The number of iterations needed is one less than the length of the list.
-    for (let iteration = 1; iteration < numberList.length; iteration += 1) {
-        const number = numberList[iteration];
+    const numberList = [...list];
+    const iterations = [];
 
-        let correctPosition;
-        /**
-         * This loop circles through the elements in sortedList at this time to determine the
-         * correct index of the number in sortedList.
-         *
-         * If the number is smaller than the current element in the sortedList the correct position
-         * is the one before that element's index. Otherwise, the current correct position would be
-         * after that element.
-         *
-         * After the loop has completed the correct position is the most recent value of
-         * correctPosition and we add the element at the correct position.
-         */
-        for (let index = 0; index < sortedList.length; index += 1) {
-            if (sortedList[index] > number) {
-                correctPosition = index;
+    let valueBeingInserted;
+    for (let i = 1; i < numberList.length; i += 1) {
+        valueBeingInserted = numberList[i];
+        const iteration = {
+            valueBeingInserted,
+            listBeforePass: JSON.parse(JSON.stringify(numberList)),
+            process: [],
+        };
+        numberList.splice(i, 1);
+        iteration.numberListAfterRemovingValueBeingInserted = JSON.parse(JSON.stringify(numberList));
+
+        for (let j = 0; j < i; j += 1) {
+            iteration.process.push(`Checking ${valueBeingInserted} against ${numberList[j]}.`);
+            if (valueBeingInserted < numberList[j]) {
+                iteration.process.push(`${valueBeingInserted} is smaller than ${numberList[j]}.`);
+                iteration.process.push(`Inserting at index ${j}.`);
+                numberList.splice(j, 0, valueBeingInserted);
+                iteration.listAfterPass = JSON.parse(JSON.stringify(numberList));
                 break;
-            } else {
-                correctPosition = index + 1;
+            } else if (j === i - 1) {
+                iteration.process.push(`Element ${valueBeingInserted} was at the correct index.`);
+                iteration.process.push(`Inserting back at index ${i}.`);
+                numberList.splice(i, 0, valueBeingInserted);
+                iteration.listAfterPass = JSON.parse(JSON.stringify(numberList));
             }
         }
-        sortedList.splice(correctPosition, 0, number);
+        iterations.push(iteration);
     }
-
     const executionEnd = performance.now();
+    // eslint-disable-next-line no-console
+
+    const executionTimeMs = executionEnd - executionStart;
     // eslint-disable-next-line no-console
     console.log(
         `Input size: ${numberList.length}.\n
-        Execution time insertionSort: ${executionEnd - executionStart} ms.`,
+        Execution time insertionSort: ${executionTimeMs} ms.`,
     );
 
-    return sortedList;
+    return {
+        unsortedList: list,
+        sortedList: numberList,
+        inputSize: list.length,
+        executionTimeMs,
+        iterations,
+    };
 };
 
 module.exports = {
