@@ -11,4 +11,11 @@ describe('#checkListValid', () => {
             expect(checkListValid('2, 10, s7, 8.').listValid).toBe(false);
         });
     });
+    describe('given a string containing positive and minus numbers', () => {
+        it('returns property listValid: true', () => {
+            expect(checkListValid('-2, 10, 7, -8').listValid).toBe(true);
+            expect(checkListValid('2, 10, 7, -8').listValid).toBe(true);
+            expect(checkListValid('2, 10-, 7, -8').listValid).toBe(false);
+        });
+    });
 });

@@ -6,14 +6,14 @@ const { sortListUsingQuickSort } = require('../../services/sortListUsingQuickSor
 const { sortListUsingSelectionSort } = require('../../services/sortListUsingSelectionSort');
 const { SortingAlgorithmName } = require('../../types');
 
-const checkListValid = (unsortedList) => (/^[0-9, ]*$/.test(unsortedList) === true
+const checkListValid = (unsortedList) => (/^((\d+|-\d+){1}(, ){1})+(\d+|-\d+){1}$/.test(unsortedList) === true
     ? {
         listValid: true,
         message: 'Input list is valid.',
     }
     : {
         listValid: false,
-        message: 'Input list must only contain numbers, commas, and spaces.',
+        message: 'Input list must only contain numbers, commas and spaces.',
     });
 
 const findRelevantSortingAlgorithmFunction = (sortingAlgoName) => {
