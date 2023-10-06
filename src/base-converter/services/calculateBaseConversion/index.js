@@ -1,20 +1,60 @@
-const toDecimal = (val, fromBase) => {
+exports.toDecimal = (val, fromBase) => {
     const valReversed = val.split('').reverse();
-    const result = valReversed.reduce((total, element, index) => {
+
+    const decimalResult = valReversed.reduce((total, element, index) => {
+        let elementCopy = element;
+        // if element is in uppercase alphabet
         if (element.charCodeAt(0) > 64 && element.charCodeAt(0) <= 90) {
-            element = 10 + (element.charCodeAt(0) - 65);
-        } else if (element.charCodeAt(0) > 96 && element.charCodeAt(0) <= 122) {
-            element = 36 + (element.charCodeAt(0) - 97);
+            // decimal value is 10 + element's character code - 65
+            elementCopy = 10 + (element.charCodeAt(0) - 65);
+        // eslint-disable-next-line brace-style
         }
-        const newTotal = total + Number(element) * (fromBase ** index);
-        return newTotal;
+        // if element is in lowercase alphabet
+        else if (element.charCodeAt(0) > 96 && element.charCodeAt(0) <= 122) {
+            // decimal value is 36 + element's character code - 97
+            elementCopy = 36 + (element.charCodeAt(0) - 97);
+        }
+        const decimalValue = total + elementCopy * (fromBase ** index);
+        return decimalValue;
     }, 0);
-    return result;
+
+    const decimalCalculations = valReversed.reduce((acc, digit, index) => {
+        let digitCopy = digit;
+        // if digit is in uppercase alphabet
+        if (digit.charCodeAt(0) > 64 && digit.charCodeAt(0) <= 90) {
+            // decimal value is 10 + digit's unicode character code - 65
+            digitCopy = 10 + (digit.charCodeAt(0) - 65);
+            // eslint-disable-next-line brace-style
+        }
+        // if digit is in lowercase alphabet
+        else if (digit.charCodeAt(0) > 96 && digit.charCodeAt(0) <= 122) {
+            // decimal value is 36 + digit's unicode character code - 97
+            digitCopy = 36 + (digit.charCodeAt(0) - 97);
+        }
+        digitCopy = Number(digit);
+        if (index === 0) {
+            acc.firstLine += `= (${digitCopy} * ${fromBase} ^ ${index})`;
+            acc.secondLine += `= (${digitCopy} * ${fromBase ** index})`;
+            acc.thirdLine += `= ${digitCopy * fromBase ** index}`;
+        } else {
+            acc.firstLine += ` + (${digitCopy} * ${fromBase} ^ ${index})`;
+            acc.secondLine += ` + (${digitCopy} * ${fromBase ** index})`;
+            acc.thirdLine += ` + ${digitCopy * fromBase ** index}`;
+        }
+        return { ...acc };
+    }, {
+        firstLine: '',
+        secondLine: '',
+        thirdLine: '',
+    });
+
+    decimalCalculations.fourthLine = `= ${decimalResult}`;
+    return { decimalResult, decimalCalculations };
 };
 
-const fromDecimal = (val, toBase) => {
+exports.fromDecimal = (val, toBase) => {
     const result = [];
-    const calcs = [];
+    const calculations = [];
     while (val !== 0) {
         const innerCalc = {
             val,
@@ -22,7 +62,7 @@ const fromDecimal = (val, toBase) => {
             newVal: Math.floor(val / toBase),
             remainder: val % toBase,
         };
-        calcs.push(innerCalc);
+        calculations.push(innerCalc);
         let remainder = val % toBase;
         if (remainder > 9 && remainder < 36) {
             remainder = String.fromCharCode(65 + (remainder - 10));
@@ -32,11 +72,19 @@ const fromDecimal = (val, toBase) => {
         result.unshift(remainder);
         val = Math.floor(val / toBase);
     }
-    return [result.join(''), calcs];
+    return { finalResult: result.join(''), finalCalculations: calculations };
 };
 
 exports.calculateBaseConversion = (val, fromBase, toBase) => {
-    const decimal = toDecimal(val, fromBase);
-    const finalConversion = fromDecimal(decimal, toBase);
-    return finalConversion;
+    const { decimalResult, decimalCalculations } = this.toDecimal(val, fromBase);
+    const { finalResult, finalCalculations } = this.fromDecimal(decimalResult, toBase);
+    return {
+        finalResult,
+        calculations: {
+            decimalResult,
+            decimalCalculations,
+            finalResult,
+            finalCalculations,
+        },
+    };
 };

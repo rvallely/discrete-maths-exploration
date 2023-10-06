@@ -9,6 +9,9 @@ exports.getBaseConversion = (req, res, next) => {
                 next(err);
             });
     }
-    const [convertedValue, calcs] = calculateBaseConversion(req.body.val, req.body.fromBase, req.body.toBase);
-    return res.status(200).send({ convertedValue, calcs });
+    const {
+        finalResult,
+        calculations,
+    } = calculateBaseConversion(req.body.val, req.body.fromBase, req.body.toBase);
+    return res.status(200).send({ convertedValue: finalResult, calculations });
 };
