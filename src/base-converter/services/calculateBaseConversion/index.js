@@ -1,3 +1,5 @@
+const { generateSuperscript } = require('../../helpers/generateSuperscript');
+
 exports.toDecimal = (val, fromBase) => {
     const valReversed = val.split('').reverse();
 
@@ -33,11 +35,11 @@ exports.toDecimal = (val, fromBase) => {
         }
 
         if (index === 0) {
-            acc.firstLine += `= (${digitCopy} * ${fromBase} ^ ${index})`;
+            acc.firstLine += `= (${digitCopy} * ${fromBase}${generateSuperscript(String(index))})`;
             acc.secondLine += `= (${digitCopy} * ${fromBase ** index})`;
             acc.thirdLine += `= ${digitCopy * fromBase ** index}`;
         } else {
-            acc.firstLine += ` + (${digitCopy} * ${fromBase} ^ ${index})`;
+            acc.firstLine += ` + (${digitCopy} * ${fromBase}${generateSuperscript(String(index))})`;
             acc.secondLine += ` + (${digitCopy} * ${fromBase ** index})`;
             acc.thirdLine += ` + ${digitCopy * fromBase ** index}`;
         }

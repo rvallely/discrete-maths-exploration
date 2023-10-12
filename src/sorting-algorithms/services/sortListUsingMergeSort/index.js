@@ -43,6 +43,7 @@ const splitListInHalf = (list) => {
                 iteration.push(arr.slice(0, Math.ceil(arr.length / 2)));
                 iteration.push(arr.slice(Math.ceil(arr.length / 2)));
             } else {
+                // TODO look at showing empty arrays to match the video
                 iteration.push(arr);
             }
         });
