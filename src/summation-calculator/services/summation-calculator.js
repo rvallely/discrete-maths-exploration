@@ -22,14 +22,14 @@ exports.calculateSummation = (n, i, operation) => {
                 let firstVal = postExpDivMult[0];
                 const secondVal = postExpDivMult[2];
                 switch (postExpDivMult[1]) {
-                case '+':
-                    firstVal += secondVal;
-                    postExpDivMult.splice(0, 3, firstVal);
-                    break;
-                case '-':
-                    firstVal -= secondVal;
-                    postExpDivMult.splice(0, 3, firstVal);
-                    break;
+                    case '+':
+                        firstVal += secondVal;
+                        postExpDivMult.splice(0, 3, firstVal);
+                        break;
+                    case '-':
+                        firstVal -= secondVal;
+                        postExpDivMult.splice(0, 3, firstVal);
+                        break;
                 }
             }
             total += postExpDivMult[0];

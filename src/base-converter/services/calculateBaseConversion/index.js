@@ -31,7 +31,7 @@ exports.toDecimal = (val, fromBase) => {
             // decimal value is 36 + digit's unicode character code - 97
             digitCopy = 36 + (digit.charCodeAt(0) - 97);
         }
-        digitCopy = Number(digit);
+
         if (index === 0) {
             acc.firstLine += `= (${digitCopy} * ${fromBase} ^ ${index})`;
             acc.secondLine += `= (${digitCopy} * ${fromBase ** index})`;

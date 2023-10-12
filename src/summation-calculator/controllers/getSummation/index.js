@@ -9,8 +9,6 @@ exports.getSummation = (req, res, next) => {
                 next(err);
             });
     }
-    if (checkArgsValid.status === true) {
-        const sum = calculateSummation(checkArgsValid.n, checkArgsValid.i, checkArgsValid.operation);
-        res.status(200).send({ msg: 'Valid operation.', sum });
-    }
+    const sum = calculateSummation(checkArgsValid.n, checkArgsValid.i, checkArgsValid.operation);
+    return res.status(200).send({ msg: 'Valid operation.', sum });
 };

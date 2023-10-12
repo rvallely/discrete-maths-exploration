@@ -2,429 +2,359 @@ const request = require('supertest');
 const app = require('../src/server');
 
 describe('/base-converter', () => {
-    test('Responds with a status 400 and error message \'Please provide three arguments.\'  when passed less than three arguments.', () => {
+    test('Responds with a status 400 and error message \'Please provide three arguments.\'  when passed less than three arguments.', async () => {
         const missingArg = { val: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(missingArg)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Please provide three arguments.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Please provide three arguments.');
     });
-    test('Responds with a status 400 and error message \'Please provide three arguments.\'  when passed two arguments.', () => {
+    test('Responds with a status 400 and error message \'Please provide three arguments.\'  when passed two arguments.', async () => {
         const missingArg2 = { val: '3', fromBase: '5', toBase: null };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(missingArg2)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Please provide three arguments.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Please provide three arguments.');
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 as the first argument.', () => {
+    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 as the first argument.', async () => {
         const invalidFirstArg = { val: true, fromBase: '3', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidFirstArg)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input.');
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 as the first argument.', () => {
+    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 as the first argument.', async () => {
         const invalidFirstArg = { val: {}, fromBase: '3', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidFirstArg)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input.');
     });
-    test('Responds with status 400 and error message \'Start value must only contain A-Z, a-z, 0-9.\' when passed anything other than a string of digits 0-9 as the first argument.', () => {
+    test('Responds with status 400 and error message \'Start value must only contain A-Z, a-z, 0-9.\' when passed anything other than a string of digits 0-9 as the first argument.', async () => {
         const invalidFirstArg = { val: '20.0', fromBase: '3.2', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidFirstArg)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Start value must only contain A-Z, a-z, 0-9.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Start value must only contain A-Z, a-z, 0-9.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', async () => {
         const invalidValChar = { val: '1234', fromBase: '3', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', async () => {
         const invalidValChar = { val: '23789', fromBase: '6', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is under 11.', async () => {
         const invalidValChar = { val: '237A', fromBase: '10', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 10.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 10.', async () => {
         const invalidValChar = { val: '23Q7A', fromBase: '26', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 36.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 36.', async () => {
         const invalidValChar = { val: '136b', fromBase: '37', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 36.', () => {
+    test('Responds with status 400 and error message \'Invalid input: value to convert contains characters not present in the base system converting from.\' when passed a value as the first argument that contains digits not present in base system. When original base is over 36.', async () => {
         const invalidValChar = { val: '234p', fromBase: '51', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidValChar)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input: value to convert contains characters not present in the base system converting from.');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const fromBaseTooSmall = { val: '10', fromBase: '0', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(fromBaseTooSmall)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const fromBaseTooSmall = { val: '10', fromBase: '1', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(fromBaseTooSmall)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const fromBaseTooLarge = { val: '10', fromBase: '63', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(fromBaseTooLarge)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: '3', toBase: 23 };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input.');
     });
-    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Invalid input.\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: '5', toBase: {} };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Invalid input.');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Invalid input.');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: 'B', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: '3', toBase: 'D' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: '!', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', () => {
+    test('Responds with status 400 and error message \'Bases to convert from must be a number between 2-62 (inclusive).\' when passed anything other than a string of digits 0-9 between 2 and 62 (inclusive), for arguments two and three.', async () => {
         const invalidToBaseType = { val: '10', fromBase: '3.0', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(invalidToBaseType)
-            .expect(400)
-            .then((res) => {
-                expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
-            });
+            .expect(400);
+        expect(res.body.msg).toBe('Bases to convert from must be a number between 2-62 (inclusive).');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '10', fromBase: '2', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('2');
-                expect(res.body.calcs).toEqual([
-                    {
-                        newVal: 0,
-                        remainder: 2,
-                        toBase: '5',
-                        val: 2,
-                    },
-                ]);
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('2');
+        expect(res.body.calcs).toEqual([
+            {
+                newVal: 0,
+                remainder: 2,
+                toBase: '5',
+                val: 2,
+            },
+        ]);
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '2211021', fromBase: '3', toBase: '5' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('31214');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('31214');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '6521', fromBase: '7', toBase: '4' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('210032');
-                expect(res.body.calcs).toEqual([
-                    {
-                        newVal: 579,
-                        remainder: 2,
-                        toBase: '4',
-                        val: 2318,
-                    },
-                    {
-                        newVal: 144,
-                        remainder: 3,
-                        toBase: '4',
-                        val: 579,
-                    },
-                    {
-                        newVal: 36,
-                        remainder: 0,
-                        toBase: '4',
-                        val: 144,
-                    },
-                    {
-                        newVal: 9,
-                        remainder: 0,
-                        toBase: '4',
-                        val: 36,
-                    },
-                    {
-                        newVal: 2,
-                        remainder: 1,
-                        toBase: '4',
-                        val: 9,
-                    },
-                    {
-                        newVal: 0,
-                        remainder: 2,
-                        toBase: '4',
-                        val: 2,
-                    },
-                ]);
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('210032');
+        expect(res.body.calcs).toEqual([
+            {
+                newVal: 579,
+                remainder: 2,
+                toBase: '4',
+                val: 2318,
+            },
+            {
+                newVal: 144,
+                remainder: 3,
+                toBase: '4',
+                val: 579,
+            },
+            {
+                newVal: 36,
+                remainder: 0,
+                toBase: '4',
+                val: 144,
+            },
+            {
+                newVal: 9,
+                remainder: 0,
+                toBase: '4',
+                val: 36,
+            },
+            {
+                newVal: 2,
+                remainder: 1,
+                toBase: '4',
+                val: 9,
+            },
+            {
+                newVal: 0,
+                remainder: 2,
+                toBase: '4',
+                val: 2,
+            },
+        ]);
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '1547', fromBase: '9', toBase: '10' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('1177');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('1177');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '1001111', fromBase: '2', toBase: '6' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('211');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('211');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '12322112', fromBase: '4', toBase: '9' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('42745');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('42745');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '1167542', fromBase: '8', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('121102122202');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('121102122202');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments 10 or under.', async () => {
         const validRequest = { val: '3398221', fromBase: '10', toBase: '7' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('40612231');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('40612231');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: '56', fromBase: '32', toBase: '29' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('5L');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('5L');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: '56A', fromBase: '32', toBase: '9' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toEqual('7263');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toEqual('7263');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: '2213GHI', fromBase: '24', toBase: '3' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('1000202212121120010');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('1000202212121120010');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: '781AZ3', fromBase: '36', toBase: '14' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body).toEqual({
-                    convertedValue: '42013691',
-                    calcs: [
-                        {
-                            val: 436761039, toBase: '14', newVal: 31197217, remainder: 1,
-                        },
-                        {
-                            val: 31197217, toBase: '14', newVal: 2228372, remainder: 9,
-                        },
-                        {
-                            val: 2228372, toBase: '14', newVal: 159169, remainder: 6,
-                        },
-                        {
-                            val: 159169, toBase: '14', newVal: 11369, remainder: 3,
-                        },
-                        {
-                            val: 11369, toBase: '14', newVal: 812, remainder: 1,
-                        },
-                        {
-                            val: 812, toBase: '14', newVal: 58, remainder: 0,
-                        },
-                        {
-                            val: 58, toBase: '14', newVal: 4, remainder: 2,
-                        },
-                        {
-                            val: 4, toBase: '14', newVal: 0, remainder: 4,
-                        },
-                    ],
-                });
-            });
+            .expect(200);
+        expect(res.body).toEqual({
+            convertedValue: '42013691',
+            calcs: [
+                {
+                    val: 436761039, toBase: '14', newVal: 31197217, remainder: 1,
+                },
+                {
+                    val: 31197217, toBase: '14', newVal: 2228372, remainder: 9,
+                },
+                {
+                    val: 2228372, toBase: '14', newVal: 159169, remainder: 6,
+                },
+                {
+                    val: 159169, toBase: '14', newVal: 11369, remainder: 3,
+                },
+                {
+                    val: 11369, toBase: '14', newVal: 812, remainder: 1,
+                },
+                {
+                    val: 812, toBase: '14', newVal: 58, remainder: 0,
+                },
+                {
+                    val: 58, toBase: '14', newVal: 4, remainder: 2,
+                },
+                {
+                    val: 4, toBase: '14', newVal: 0, remainder: 4,
+                },
+            ],
+        });
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: '29Bab', fromBase: '40', toBase: '4' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('111303102011');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('111303102011');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: 'IABCDzy', fromBase: '62', toBase: '17' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('8BF5D57150');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('8BF5D57150');
     });
-    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', () => {
+    test('Responds with status 200 and correct base conversion when passed valid request data and fromBase and toBase arguments are between 11 and 62 inclusive.', async () => {
         const validRequest = { val: 'GHJK523', fromBase: '28', toBase: '60' };
-        return request(app)
+        const res = await request(app)
             .post('/base-converter')
             .send(validRequest)
-            .expect(200)
-            .then((res) => {
-                expect(res.body.convertedValue).toBe('AIQCuh');
-            });
+            .expect(200);
+        expect(res.body.convertedValue).toBe('AIQCuh');
     });
 });
 

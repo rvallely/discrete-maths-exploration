@@ -18,7 +18,7 @@ const sortListUsingSelectionSort = (orginalNumberList) => {
                 `Checking ${numberList[j]} against current lowest value ${numberList[lowestValueIndex]}.`,
             );
             if (numberList[j] < numberList[lowestValueIndex]) {
-                iteration.process.push(`${numberList[j]} is smaller than ${numberList[lowestValueIndex]}`);
+                iteration.process.push(`${numberList[j]} is smaller than ${numberList[lowestValueIndex]}.`);
                 iteration.process.push(`New lowest value is ${numberList[j]} at index ${j}.`);
                 lowestValueIndex = j;
             }

@@ -14,24 +14,31 @@ const sortListUsingInsertionSort = (list) => {
             listBeforePass: JSON.parse(JSON.stringify(numberList)),
             process: [],
         };
-        numberList.splice(i, 1);
+        numberList.splice(i, 1, undefined);
         iteration.numberListAfterRemovingValueBeingInserted = JSON.parse(JSON.stringify(numberList));
 
-        for (let j = 0; j < i; j += 1) {
+        let j = i - 1;
+        while (j >= 0) {
             iteration.process.push(`Checking ${valueBeingInserted} against ${numberList[j]}.`);
-            if (valueBeingInserted < numberList[j]) {
+            if (numberList[j] > valueBeingInserted) {
                 iteration.process.push(`${valueBeingInserted} is smaller than ${numberList[j]}.`);
-                iteration.process.push(`Inserting at index ${j}.`);
-                numberList.splice(j, 0, valueBeingInserted);
-                iteration.listAfterPass = JSON.parse(JSON.stringify(numberList));
+                iteration.process.push(`Moving ${numberList[j]} one place to the right.`);
+
+                numberList[j + 1] = numberList[j];
+                numberList[j] = undefined;
+                iteration.process.push(JSON.stringify(numberList));
+            } else {
+                iteration.process.push(`${valueBeingInserted} is bigger than or equal to ${numberList[j]}.`);
                 break;
-            } else if (j === i - 1) {
-                iteration.process.push(`Element ${valueBeingInserted} was at the correct index.`);
-                iteration.process.push(`Inserting back at index ${i}.`);
-                numberList.splice(i, 0, valueBeingInserted);
-                iteration.listAfterPass = JSON.parse(JSON.stringify(numberList));
             }
+            j -= 1;
         }
+
+        iteration.process.push(`Inserting ${valueBeingInserted} at index ${j + 1}.`);
+        numberList.splice(j + 1, 1, valueBeingInserted);
+        iteration.process.push(JSON.stringify(numberList));
+        iteration.listAfterPass = JSON.parse(JSON.stringify(numberList));
+
         iterations.push(iteration);
     }
     const executionEnd = performance.now();
