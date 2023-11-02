@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 exports.generateSuperscript = (number) => {
     const digitToSuperscriptMapper = {
         '0': '⁰',
@@ -9,7 +10,7 @@ exports.generateSuperscript = (number) => {
         '6': '⁶',
         '7': '⁷',
         '8': '⁸',
-        '9': '⁹'
+        '9': '⁹',
     };
     return number.split('').map((char) => digitToSuperscriptMapper[char]).join('');
 };
